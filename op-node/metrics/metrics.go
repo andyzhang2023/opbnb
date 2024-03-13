@@ -119,6 +119,8 @@ type Metrics struct {
 	SequencerSealingDurationSeconds prometheus.Histogram
 	SequencerSealingTotal           prometheus.Counter
 
+	SequencerStepDurationSeconds *prometheus.HistogramVec
+
 	UnsafePayloadsBufferLen     prometheus.Gauge
 	UnsafePayloadsBufferMemSize prometheus.Gauge
 
@@ -443,6 +445,13 @@ func NewMetrics(procName string) *Metrics {
 			Name:      "sequencer_sealing_total",
 			Help:      "Number of sequencer block sealing jobs",
 		}),
+		SequencerStepDurationSeconds: factory.NewHistogramVec(prometheus.HistogramOpts{
+			Namespace: ns,
+			Name:      "sequencer_step_seconds",
+			Buckets: []float64{
+				.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10},
+			Help: "Histogram of Sequencer main step duration time",
+		}, []string{"step"}),
 
 		registry: registry,
 		factory:  factory,
