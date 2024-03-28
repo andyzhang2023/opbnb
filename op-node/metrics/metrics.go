@@ -869,3 +869,6 @@ func (n *noopMetricer) RecordAccept(allow bool) {
 
 func (n *noopMetricer) RecordL1UrlSwitchEvent() {
 }
+
+func (n *noopMetricer) RecordSequencerStepTime(_step string, _duration time.Duration) {
+}
